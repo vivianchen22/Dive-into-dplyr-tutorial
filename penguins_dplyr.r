@@ -2,33 +2,33 @@
 library('tidyverse')
 penguins <- read_csv('penguins_lter.csv')
 
-#[ Check out our data ]
+#Check out our data 
 glimpse(penguins)
 head(penguins)
 summary(penguins)
 names(penguins)
 
-#[ Renames columns ]
+#Renames columns 
 names(penguins) <- gsub("[[:punct:]]", " ", names(penguins))
 names(penguins) <- gsub("\\s\\s", "_", names(penguins))
 names(penguins) <- gsub("\\s", "_", names(penguins))
 names(penguins) <- gsub("[[:punct:]]$", "", names(penguins))
 
 
-#[ Exploring our data with dplyr ]
+#Exploring our data with dplyr 
 penguins %>% filter(Island=='Torgersen') %>% head()
 penguins %>% arrange(Flipper_Length_mm) %>% head(10)
 
-#[ Creating a subset ]
+#Creating a subset 
 # creating a random subset of the penguins dataset
 set.seed(406)
 penguins_subset <- penguins %>% sample_n(12)
 penguins_subset %>% arrange(Species)
 
-#[ Nesting desc() inside arrange() ]
+#Nesting desc() inside arrange() 
 penguins_subset %>% arrange(desc(Culmen_Length_mm))
 
-#[ Fun with filter() ]
+#Fun with filter() 
 penguins_subset %>%
   filter(Culmen_Length_mm > 50)
 penguins_subset %>%
@@ -42,13 +42,13 @@ penguins_subset %>% select(where(is.character))
 penguins_subset %>% select(where(is.numeric))
 penguins_subset %>% select(!where(is.numeric))
 
-#[ Math with mutate() ]
+#Math with mutate() 
 
 penguins_subset %>%
   mutate(Body_Mass_pound = Body_Mass_g / 453.59237) %>%
   select(Species, Body_Mass_g, Body_Mass_pound, everything())
 
-#[ Summaries with summarise(), with help from group_by() ]
+#Summaries with summarise(), with help from group_by() 
 penguins_subset %>% summarise(avg_body_mass = mean(Body_Mass_g))
 
 #The NAs!
